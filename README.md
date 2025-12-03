@@ -385,3 +385,4 @@ For issues, questions, or suggestions:
 **Remember**: *Ethical hacking is not a crime, it's a skill!* 🛡️
 
 Use this tool responsibly and always with proper authorization.
+
