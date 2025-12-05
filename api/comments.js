@@ -12,8 +12,9 @@ export default function handler(req, res) {
   }
 
   // Handle POST request (Stored XSS)
-  if (req.method === 'POST') {
-    const { comment, author } = req.body || {}
+  // Also allow GET via ?stored=true params for scanner compatibility
+  if (req.method === 'POST' || (req.method === 'GET' && req.query.stored)) {
+    const { comment, author } = req.method === 'POST' ? (req.body || {}) : req.query
 
     if (!comment) {
       return res.status(400).send('Comment required')

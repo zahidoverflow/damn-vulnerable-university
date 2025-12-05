@@ -2,23 +2,29 @@
 // This allows CLI scanners to detect the vulnerability
 
 export default function handler(req, res) {
-    // Enable CORS
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+  res.setHeader('Content-Type', 'text/html; charset=utf-8')
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end()
-    }
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
 
-    if (req.method !== 'POST') {
-        return res.status(405).send('Method Not Allowed')
-    }
+  if (req.method !== 'POST' && req.method !== 'GET') {
+    return res.status(405).send('Method Not Allowed')
+  }
 
-    const { username, password } = req.body || {}
+  // Support both POST (body) and GET (query) for scanner compatibility
+  let username, password
+  if (req.method === 'POST') {
+    ({ username, password } = req.body || {})
+  } else {
+    ({ username, password } = req.query || {})
+  }
 
-    if (!username || !password) {
-        return res.status(200).send(`
+  if (!username || !password) {
+    return res.status(200).send(`
 <!DOCTYPE html>
 <html>
 <head><title>Login Failed</title></head>
@@ -28,20 +34,20 @@ export default function handler(req, res) {
 </body>
 </html>
     `)
-    }
+  }
 
-    // VULNERABLE: SQL Injection in authentication
-    const hasSQLi = username.includes("'") ||
-        username.includes('"') ||
-        username.includes('--') ||
-        username.includes('OR') ||
-        username.toLowerCase().includes("or '1'='1") ||
-        username.toLowerCase().includes("or 1=1") ||
-        username.includes('admin') && username.includes("'")
+  // VULNERABLE: SQL Injection in authentication
+  const hasSQLi = username.includes("'") ||
+    username.includes('"') ||
+    username.includes('--') ||
+    username.includes('OR') ||
+    username.toLowerCase().includes("or '1'='1") ||
+    username.toLowerCase().includes("or 1=1") ||
+    username.includes('admin') && username.includes("'")
 
-    if (hasSQLi) {
-        // Authentication bypass successful!
-        return res.status(200).send(`
+  if (hasSQLi) {
+    // Authentication bypass successful!
+    return res.status(200).send(`
 <!DOCTYPE html>
 <html>
 <head><title>Login Successful - SQL Injection!</title></head>
@@ -72,10 +78,10 @@ SELECT * FROM users WHERE username='${username}' AND password='${password}'
 </body>
 </html>
     `)
-    }
+  }
 
-    // Normal login failure
-    return res.status(401).send(`
+  // Normal login failure
+  return res.status(401).send(`
 <!DOCTYPE html>
 <html>
 <head><title>Login Failed</title></head>

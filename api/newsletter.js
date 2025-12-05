@@ -4,17 +4,22 @@
 export default function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end()
     }
 
-    if (req.method !== 'POST') {
+    if (req.method !== 'POST' && req.method !== 'GET') {
         return res.status(405).send('Method Not Allowed')
     }
 
-    const { email } = req.body || {}
+    let email
+    if (req.method === 'POST') {
+        ({ email } = req.body || {})
+    } else {
+        ({ email } = req.query || {})
+    }
 
     if (!email) {
         return res.status(200).send('Email required')
