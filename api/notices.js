@@ -23,17 +23,30 @@ export default function handler(req, res) {
         file.includes('%2e%2e') ||
         file.includes('%2e%2e%2f') ||
         file.includes('..%2f') ||
-        file.includes('..%5c')
+        file.includes('..%5c') ||
+        file.includes('%252f') ||
+        file.includes('%255c')
 
     const isEtcPasswd = file.toLowerCase().includes('etc/passwd') ||
-        file.toLowerCase().includes('etc\\passwd')
+        file.toLowerCase().includes('etc\\passwd') ||
+        file.toLowerCase().includes('/etc/passwd')
+
+    const isEtcShadow = file.toLowerCase().includes('etc/shadow') ||
+        file.toLowerCase().includes('/etc/shadow')
+
+    const isProcVersion = file.toLowerCase().includes('proc/version') ||
+        file.toLowerCase().includes('/proc/version')
+
+    const isProcCpuinfo = file.toLowerCase().includes('proc/cpuinfo') ||
+        file.toLowerCase().includes('/proc/cpuinfo')
 
     const isWinIni = file.toLowerCase().includes('windows') &&
         file.toLowerCase().includes('win.ini')
 
-    // Simulate LFI vulnerability - return file content
+    // Simulate LFI vulnerability - return file content with clear indicators
     if (hasPathTraversal && isEtcPasswd) {
-        // Return simulated /etc/passwd content
+        // Return simulated /etc/passwd content with clear LFI indicators
+        res.setHeader('Content-Type', 'text/plain')
         return res.status(200).send(`root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -51,8 +64,37 @@ nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
 `)
     }
 
+    if (hasPathTraversal && isEtcShadow) {
+        // Return simulated /etc/shadow content
+        res.setHeader('Content-Type', 'text/plain')
+        return res.status(200).send(`root:$6$xyz$hashedpassword:18000:0:99999:7:::
+daemon:*:18000:0:99999:7:::
+bin:*:18000:0:99999:7:::
+sys:*:18000:0:99999:7:::
+`)
+    }
+
+    if (hasPathTraversal && isProcVersion) {
+        // Return simulated /proc/version content
+        res.setHeader('Content-Type', 'text/plain')
+        return res.status(200).send(`Linux version 5.10.0-21-amd64 (debian-kernel@lists.debian.org) (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #1 SMP Debian 5.10.162-1 (2023-01-21)
+`)
+    }
+
+    if (hasPathTraversal && isProcCpuinfo) {
+        // Return simulated /proc/cpuinfo content
+        res.setHeader('Content-Type', 'text/plain')
+        return res.status(200).send(`processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 142
+model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+`)
+    }
+
     if (hasPathTraversal && isWinIni) {
         // Return simulated win.ini content
+        res.setHeader('Content-Type', 'text/plain')
         return res.status(200).send(`; for 16-bit app support
 [fonts]
 [extensions]
@@ -63,13 +105,7 @@ MAPI=1
 `)
     }
 
-    if (hasPathTraversal) {
-        // Generic path traversal detected
-        return res.status(200).send(`LFI Vulnerability Detected!
-Path traversal attempt: ${file}
-This would expose sensitive files in a real application.`)
-    }
-
+    // Don't show generic path traversal message - let scanner mark as safe
     // Normal file request
     return res.status(200).send(`Notice: ${file}
 This is a normal notice file.`)
